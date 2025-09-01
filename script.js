@@ -24,3 +24,24 @@ function getComputerChoice(){
 }
 
 console.log(getComputerChoice())
+
+/*
+Die Funktion soll die Auswahl des menschlichen Spielers zurückgeben 
+
+*/
+
+function getHumanChoice() {
+    let humanChoice = "";
+    const readline = require("readline");
+    let rl = readline.createInterface(process.stdin, process.stdout);
+        rl.question("What is your Choice ?: ", (humanInput) => {
+            humanChoice = humanInput
+            return
+        }
+    )
+    return humanChoice;
+}
+
+getHumanChoice();
+
+return
