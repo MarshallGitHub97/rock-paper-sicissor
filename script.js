@@ -1,8 +1,11 @@
 
+let humanResult = 0;
+let computerResult = 0;
+
 function getComputerChoice(){
 
     let randomNumber = 0;
-    randomNumber = Math.floor(Math.random() * 3) + 1;
+randomNumber = Math.floor(Math.random() * 3) + 1; 
 
     if(randomNumber == 1){
         return "Rock"
@@ -17,10 +20,11 @@ function getComputerChoice(){
     return ""
 }
 
-
 function getHumanChoice() {
     let humanChoice = "";
-    humanChoice = prompt("What is your Choice ?: ");
+    document.querySelector("button", () => {
+        humanChoice = button.value
+    });
     return humanChoice;
 }
 
@@ -28,11 +32,7 @@ function playRound(humanChoice, computerChoice){
     humanChoice = humanChoice.toLowerCase();
     computerChoice = computerChoice.toLowerCase();
 
-    console.log("Human choice: " + humanChoice)
-    console.log("Computer choice: " + computerChoice)
-
     if (humanChoice == computerChoice){
-        console.log("No Winner this Time")
         return "none"
     }
     else if(
@@ -40,8 +40,8 @@ function playRound(humanChoice, computerChoice){
         (humanChoice == "scissor" && computerChoice == "paper") ||
         (humanChoice == "paper" && computerChoice == "rock")
     ){
-        console.log("Human wins")
-        return "human"
+        humanResult++;
+        return "human";
 
     } 
     else if (
@@ -51,37 +51,49 @@ function playRound(humanChoice, computerChoice){
     )
     
     {
-        console.log("Computer wins")
-        return "computer"
+        computerResult++;
+        return "computer";
     }
 
 }
 
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
+const buttonList = document.querySelectorAll("button");
 
-    for(let i = 0; humanScore < 5; i++){
-        let winner = playRound(getHumanChoice(), getComputerChoice())
-        
-        if (winner == "human"){
-            humanScore++
-        } 
-        else if (winner == "computer"){
-            computerScore++
-        }
-        console.log("Human Score: " + humanScore)
-        console.log("Computer Score " + computerScore)
-    }
+    buttonList.forEach((button) => {
+            button.addEventListener("click", () => {
+                if (button.value == "rock" || 
+                    button.value == "paper" ||
+                    button.value == "scissor"
+                ){
+                const humanChoice = button.value;
+                const computerChoice = getComputerChoice();
 
-    if(humanScore > computerScore){
-        console.log("You are the Winner")
-    }
-    else if(humanScore < computerScore){
-        console.log("You lost, my dear Friend !!")
-    } else {
-        console.log("No Winner, No Chicken Dinner")
-    }
-}
+                playRound(humanChoice, computerChoice)
 
-playGame();
+                document.querySelector("#choice").textContent = `
+                    Human selected: ${humanChoice}.
+                    Computer selected ${computerChoice}.
+                `
+                document.querySelector("#result").textContent = `
+                    The result is: Human has won ${humanResult} Games.
+                    Computer has won ${computerResult} Games.
+
+                `
+                }
+            }
+        )
+    }
+)
+
+document.querySelector("#reset").addEventListener("click", () => {
+    humanResult = 0;
+    computerResult = 0;
+
+    document.querySelector("#result").textContent = `
+        The result is: Human has won ${humanResult} Games.
+        Computer has won ${computerResult} Games.
+    `
+
+})
+
+
